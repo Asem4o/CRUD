@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <body class="p-5 m-5 center">
+    <div class="card text-center col-6">
+        <div class="card-header">Update Note</div>
+        <div class="card-body">
+            {{ form_start(form) }}
+            <div class="m-3 row">
+                {{ form_label(form.note) }}
+                {{ form_widget(form.note,{attr:{'class':'form-control'}}) }}
+            </div>
+            {{ form_row(form.submit,{attr:{'class':'btn btn-outline-success mt-5'}}) }}
+
+        </div>
+    </div>
+    {{ form_end(form) }}
+    </body>
+{% endblock %}

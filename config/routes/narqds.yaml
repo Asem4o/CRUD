@@ -1,0 +1,12 @@
+narqd_create:
+  path: /narqds/create
+  controller: App\Controller\NarqdController::create
+narqd_update_status:
+  path: /narqds/{id}/updateStatus
+  controller: App\Controller\NarqdController::updateStatus
+narqd_delete:
+  path: /narqds/{id}/delete
+  controller: App\Controller\NarqdController::delete
+narqd_update:
+  path: /narqds/{id}/update
+  controller: App\Controller\NarqdController::update

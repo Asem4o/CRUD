@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    <div class="card text-center col-6 p-1">
+        <div class="card p-2">
+            <p>You can <a href="{{ path('register') }}" >Register from here</a> </p>
+            <p>You can <a href="{{ path('reset') }}" >Reset Password</a> </p>
+            <div class="card-header">
+                <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+            </div>
+            {{ form_start(form) }}
+            <div class="card-body">
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {{ form_row(form.username,{attr:{'class':'form-control'}}) }}
+                <div class="d-none">
+                    {{ form_row(form.pin,{attr:{'class':'form-control mb-2'}}) }}
+
+                </div>
+                {{ form_row(form.password,{attr:{'class':'form-control mb-2'}}) }}
+
+
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}">
+                <div class="d-flex justify-content-around">
+                {{ form_row(form.submit) }}
+
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

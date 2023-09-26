@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <body class="p-5 m-5 center">
+    <div class="card text-center col-6">
+        <div class="card-header">Create New Narqd</div>
+        <div class="card-body">
+            {{ form_start(form) }}
+            <div class="m-3 row">
+                <span>Narqd Date</span>
+
+                <div class="d-flex mt-2">
+                    {{ form_widget(form.createdAt) }}
+                </div>
+                <div class="mt-2">
+                    {{ form_label(form.compensationHours) }}
+                    {{ form_widget(form.compensationHours,{attr:{'class':'form-control'}}) }}
+                </div>
+            </div>
+            {{ form_row(form.submit,{attr:{'class':'btn btn-outline-success mt-5'}}) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+    </body>
+
+{% endblock %}
+

@@ -1,0 +1,12 @@
+note_create:
+  path: /notes/create
+  controller: App\Controller\NoteController::create
+note_update_status:
+  path: /notes/{id}/updateStatus
+  controller: App\Controller\NoteController::updateStatus
+note_delete:
+  path: /notes/{id}/delete
+  controller: App\Controller\NoteController::delete
+note_update:
+  path: /notes/{id}/update
+  controller: App\Controller\NoteController::update

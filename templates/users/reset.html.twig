@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <div class="card text-center col-6 p-1">
+        <p>You can <a href="{{ path('login') }}" >Login from here</a> </p>
+
+        <div class="card p-2">
+            <div class="card-header">
+                <h1 class="h3 mb-3 font-weight-normal">Reset</h1>
+            </div>
+            {{ form_start(form) }}
+            <div class="card-body">
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+                {{ form_row(form.username,{attr:{'class':'form-control'}}) }}
+                {{ form_row(form.pin,{attr:{'class':'form-control mb-2','required':"required",'minlength':4}}) }}
+                {{ form_row(form.password,{attr:{'class':'form-control mb-2','placeholder':"new password"}}) }}
+
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}">
+                <div class="d-flex justify-content-around">
+                    {{ form_row(form.submit) }}
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
