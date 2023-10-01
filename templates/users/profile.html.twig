@@ -2,7 +2,7 @@
 
 {% block body %}
     <body class="p-3">
-    <div class="card  text-center">
+    <div class="card text-center">
         <div class="card-header">
             <h1>Profile</h1>
         </div>
@@ -22,8 +22,8 @@
                 </div>
             {% endfor %}
 
-            <a href="{{ path('narqd_create') }}" class="btn btn-outline-primary">Add Compensation Hours </a>
-            <a href="{{ path('note_create') }}" class="btn btn-outline-primary">Add Note </a>
+            <a href="{{ path('narqd_create') }}" class="btn btn-outline-primary">Add Compensation Hours</a>
+            <a href="{{ path('note_create') }}" class="btn btn-outline-primary">Add Note</a>
 
             <!-- Table for Narqd entries -->
             {% if user.narqds|length > 0 %}
@@ -48,6 +48,28 @@
                 </table>
             {% else %}
                 <p>No Compensation Hours added yet.</p>
+            {% endif %}
+
+            <!-- Monthly Sum of Compensation Hours -->
+            {% if sorted_months is not empty %}
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Year Month</th>
+                        <th>Monthly Sum of Compensation Hours</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for month, hours in sorted_months %}
+                        <tr>
+                            <td>{{ month }}</td>
+                            <td>{{ hours }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No data available.</p>
             {% endif %}
 
             <!-- Table for Note entries -->
