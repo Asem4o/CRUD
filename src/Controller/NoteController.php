@@ -52,17 +52,29 @@ class NoteController extends AbstractController
 
 
 
-    public function delete($id)
+    public function delete(Request $request, $id): RedirectResponse
     {
-
-
         $note = $this->noteRepository->find($id);
-        if($note->getUser()->getId()!== $note = $this->noteRepository->find($id)){
+
+        if (!$note) {
+            $this->addFlash("error", "Narqd not found");
             return $this->redirectToRoute('profile');
         }
-        $this->entityManager->remove($note);
 
-        $this->entityManager->flush();
+        // Получаване на идентификатора на текущия потребител от сесията
+        $loggedInUserId = $request->getSession()->get('userId');
+
+        // Проверка дали записът съществува и дали принадлежи на текущия потребител
+        if ($note->getUser() && $note->getUser()->getId() === $loggedInUserId) {
+            // Изтриване и записване на промените в базата данни
+            $this->entityManager->remove($note);
+            $this->entityManager->flush();
+
+            $this->addFlash("success", "Narqd Deleted");
+        } else {
+            $this->addFlash("error", "You don't have permission to delete this Note");
+        }
+
         return $this->redirectToRoute('profile');
     }
 

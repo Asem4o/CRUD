@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 
 class NarqdController extends AbstractController
@@ -44,14 +45,29 @@ class NarqdController extends AbstractController
         );
     }
 
-    public function delete($id): RedirectResponse
+    public function delete(Request $request, $id): RedirectResponse
     {
         $note = $this->noteRepository->find($id);
-        if($note->getUser()->getId()!== $note = $this->noteRepository->find($id)){
+
+        if (!$note) {
+            $this->addFlash("error", "Narqd not found");
             return $this->redirectToRoute('profile');
         }
-        $this->entityManager->remove($note);
-        $this->entityManager->flush();
+
+        // Получаване на идентификатора на текущия потребител от сесията
+        $loggedInUserId = $request->getSession()->get('userId');
+
+        // Проверка дали записът съществува и дали принадлежи на текущия потребител
+        if ($note->getUser() && $note->getUser()->getId() === $loggedInUserId) {
+            // Изтриване и записване на промените в базата данни
+            $this->entityManager->remove($note);
+            $this->entityManager->flush();
+
+            $this->addFlash("success", "Narqd Deleted");
+        } else {
+            $this->addFlash("error", "You don't have permission to delete this Narqd");
+        }
+
         return $this->redirectToRoute('profile');
     }
 
@@ -59,7 +75,6 @@ class NarqdController extends AbstractController
     {
         $note = $this->noteRepository->find($id);
 
-        // Check if the note exists
         if (!$note) {
             return $this->redirectToRoute('profile');
         }
